@@ -1,0 +1,976 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🧒 ריפוי הילד הפנימי</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;900&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Heebo', sans-serif;
+        }
+        
+        body {
+            background: #FFF5F7;
+            min-height: 100vh;
+            color: #333;
+            padding: 20px;
+            padding-bottom: 200px;
+        }
+        
+        .header {
+            text-align: center;
+            padding: 30px 20px;
+            margin-bottom: 20px;
+        }
+        
+        .header h1 {
+            font-size: 2em;
+            color: #D4A574;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            color: #888;
+            font-size: 1.1em;
+        }
+        
+        .icon-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+        
+        .main-icon {
+            font-size: 80px;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        
+        .section-title {
+            text-align: center;
+            color: #D4A574;
+            font-size: 1.3em;
+            margin: 30px 0 15px;
+            padding: 10px;
+            background: #fff;
+            border-radius: 15px;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .buttons-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            max-width: 500px;
+            margin: 0 auto 20px;
+        }
+        
+        .power-button {
+            background: #fff;
+            border: 2px solid #FFB6C1;
+            border-radius: 20px;
+            padding: 20px 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .power-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 20px rgba(255, 182, 193, 0.3);
+            background: #FFF0F3;
+        }
+        
+        .power-button:active {
+            transform: scale(0.98);
+        }
+        
+        .power-button.mint { border-color: #B8E6D4; }
+        .power-button.mint:hover { background: #F0FFF8; }
+        
+        .power-button.gold { border-color: #D4A574; }
+        .power-button.gold:hover { background: #FFFAF5; }
+        
+        .button-icon {
+            font-size: 40px;
+            margin-bottom: 8px;
+            display: block;
+        }
+        
+        .button-title {
+            font-size: 1.1em;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 5px;
+        }
+        
+        .button-desc {
+            font-size: 0.85em;
+            color: #888;
+        }
+        
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: #FFF5F7;
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            padding: 20px;
+            overflow-y: auto;
+        }
+        
+        .overlay.active {
+            display: flex;
+        }
+        
+        .overlay-content {
+            text-align: center;
+            max-width: 400px;
+            width: 100%;
+        }
+        
+        .close-overlay {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: #FFB6C1;
+            border: none;
+            color: #fff;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 20px;
+            cursor: pointer;
+            z-index: 1001;
+        }
+        
+        .animation-icon {
+            font-size: 80px;
+            margin-bottom: 30px;
+        }
+        
+        .animation-text {
+            font-size: 1.3em;
+            margin-bottom: 20px;
+            min-height: 60px;
+            color: #333;
+            line-height: 1.5;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 12px;
+            background: #FFE4EC;
+            border-radius: 6px;
+            overflow: hidden;
+            margin-bottom: 30px;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            width: 0%;
+            border-radius: 6px;
+            transition: width 0.5s ease;
+            background: #FFB6C1;
+        }
+        
+        .completion-message {
+            display: none;
+            padding: 20px;
+            background: #fff;
+            border: 2px solid #B8E6D4;
+            border-radius: 15px;
+            margin-top: 20px;
+        }
+        
+        .completion-message.show {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .install-btn {
+            background: #FFB6C1;
+            border: none;
+            color: #fff;
+            padding: 15px 40px;
+            border-radius: 30px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .install-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(255, 182, 193, 0.5);
+        }
+        
+        .install-btn:disabled {
+            background: #ddd;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .info-box {
+            background: #fff;
+            border: 2px solid #B8E6D4;
+            border-radius: 20px;
+            padding: 20px;
+            margin: 20px auto;
+            max-width: 500px;
+            text-align: center;
+        }
+        
+        .info-box p {
+            color: #666;
+            line-height: 1.8;
+            font-size: 1em;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🧒 ריפוי הילד הפנימי</h1>
+        <p>ריפוי פחדים, דאגות וחרדות</p>
+    </div>
+    
+    <div class="icon-container">
+        <span class="main-icon">💝</span>
+    </div>
+    
+    <div class="info-box">
+        <p>💜 כל כפתור מרפא חלק אחר בנפש שלך.<br>
+        לחצי על הכפתור, התחילי את התהליך,<br>
+        ותני לריפוי לקרות.</p>
+    </div>
+    
+    <div class="section-title">🧒 הילדה הפנימית</div>
+    <div class="buttons-grid">
+        <div class="power-button" onclick="startProcess('innerChild')" style="grid-column: span 2;">
+            <span class="button-icon">👧</span>
+            <div class="button-title">הילדה הקטנה</div>
+            <div class="button-desc">ריפוי הילדה הפנימית</div>
+        </div>
+    </div>
+    
+    <div class="section-title">😰 פחדים ודאגות</div>
+    <div class="buttons-grid">
+        <div class="power-button mint" onclick="startProcess('longing')">
+            <span class="button-icon">💔</span>
+            <div class="button-title">פחד מגעגוע</div>
+            <div class="button-desc">ריפוי געגועים</div>
+        </div>
+        <div class="power-button gold" onclick="startProcess('trauma')">
+            <span class="button-icon">🩹</span>
+            <div class="button-title">מחיקת טראומות</div>
+            <div class="button-desc">שחרור טראומות מהעבר</div>
+        </div>
+        <div class="power-button" onclick="startProcess('memories')">
+            <span class="button-icon">🧠</span>
+            <div class="button-title">פחד מזכרונות</div>
+            <div class="button-desc">כאב מזכרונות העבר</div>
+        </div>
+        <div class="power-button mint" onclick="startProcess('losing')">
+            <span class="button-icon">😢</span>
+            <div class="button-title">פחד לאבד</div>
+            <div class="button-desc">פחד מאובדן</div>
+        </div>
+        <div class="power-button mint" onclick="startProcess('alone')">
+            <span class="button-icon">🏠</span>
+            <div class="button-title">פחד להיות לבד</div>
+            <div class="button-desc">פחד מבדידות</div>
+        </div>
+        <div class="power-button gold" onclick="startProcess('intimacy')">
+            <span class="button-icon">💕</span>
+            <div class="button-title">פחד מאינטימיות</div>
+            <div class="button-desc">קרבה עם אחר או עצמי</div>
+        </div>
+        <div class="power-button" onclick="startProcess('comparison')">
+            <span class="button-icon">⚖️</span>
+            <div class="button-title">פחד מהשוואה</div>
+            <div class="button-desc">תחרותיות והשוואה</div>
+        </div>
+        <div class="power-button mint" onclick="startProcess('future')">
+            <span class="button-icon">💍</span>
+            <div class="button-title">פחד מזוגיות עתידית</div>
+            <div class="button-desc">חשש מהעתיד הזוגי</div>
+        </div>
+        <div class="power-button gold" onclick="startProcess('abandonment')">
+            <span class="button-icon">🚪</span>
+            <div class="button-title">פחד מנטישה</div>
+            <div class="button-desc">פחד שיעזבו אותי</div>
+        </div>
+        <div class="power-button" onclick="startProcess('rejection')">
+            <span class="button-icon">🙈</span>
+            <div class="button-title">פחד מדחייה</div>
+            <div class="button-desc">פחד שידחו אותי</div>
+        </div>
+        <div class="power-button mint" onclick="startProcess('betrayal')">
+            <span class="button-icon">🎭</span>
+            <div class="button-title">פחד משקרים ובגידה</div>
+            <div class="button-desc">פחד מאי-אמינות</div>
+        </div>
+    </div>
+    
+    <div class="section-title">💭 רגשות וגבולות</div>
+    <div class="buttons-grid">
+        <div class="power-button gold" onclick="startProcess('guilt')">
+            <span class="button-icon">😔</span>
+            <div class="button-title">רגשות אשמה</div>
+            <div class="button-desc">שחרור אשמה</div>
+        </div>
+        <div class="power-button" onclick="startProcess('boundaries')">
+            <span class="button-icon">🌫️</span>
+            <div class="button-title">טשטוש גבולות</div>
+            <div class="button-desc">חיזוק גבולות העצמי</div>
+        </div>
+        <div class="power-button mint" onclick="startProcess('lostSelf')">
+            <span class="button-icon">🔍</span>
+            <div class="button-title">איבוד עצמי</div>
+            <div class="button-desc">חיבור מחדש לעצמי</div>
+        </div>
+    </div>
+    
+    <div class="section-title">🕊️ מחילה וסליחה</div>
+    <div class="buttons-grid">
+        <div class="power-button" onclick="startProcess('forgivenessParents')">
+            <span class="button-icon">👨‍👩‍👧</span>
+            <div class="button-title">מחילה להורים</div>
+            <div class="button-desc">סליחה ושחרור</div>
+        </div>
+        <div class="power-button mint" onclick="startProcess('forgivenessSelf')">
+            <span class="button-icon">💗</span>
+            <div class="button-title">מחילה לעצמי</div>
+            <div class="button-desc">סליחה עצמית</div>
+        </div>
+        <div class="power-button gold" onclick="startProcess('forgivenessToGod')">
+            <span class="button-icon">🙏</span>
+            <div class="button-title">מחילה לקב"ה</div>
+            <div class="button-desc">שחרור כעסים</div>
+        </div>
+        <div class="power-button" onclick="startProcess('forgivenessFromGod')">
+            <span class="button-icon">✡️</span>
+            <div class="button-title">מחילה מהקב"ה</div>
+            <div class="button-desc">קבלת סליחה</div>
+        </div>
+    </div>
+
+    <!-- Inner Child Overlay -->
+    <div class="overlay" id="innerChildOverlay">
+        <button class="close-overlay" onclick="closeOverlay('innerChild')">✕</button>
+        <div class="overlay-content">
+            <div class="animation-icon" id="innerChildIcon">👧</div>
+            <div class="animation-text" id="innerChildText">מתחברת לילדה הקטנה שבפנים...</div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="innerChildProgress"></div>
+            </div>
+            <button class="install-btn" id="innerChildBtn" onclick="runProcess('innerChild')">💝 התחילי ריפוי</button>
+            <div class="completion-message" id="innerChildComplete">
+                <p style="font-size: 1.3em; margin-bottom: 10px; color: #D4A574;">✅ הילדה הפנימית מרגישה אהובה!</p>
+                <p style="color: #666;">את בטוחה, את אהובה, את מוגנת.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Longing Overlay -->
+    <div class="overlay" id="longingOverlay">
+        <button class="close-overlay" onclick="closeOverlay('longing')">✕</button>
+        <div class="overlay-content">
+            <div class="animation-icon" id="longingIcon">💔</div>
+            <div class="animation-text" id="longingText">מזהה את הפחד מגעגוע...</div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="longingProgress"></div>
+            </div>
+            <button class="install-btn" id="longingBtn" onclick="runProcess('longing')">💝 התחילי ריפוי</button>
+            <div class="completion-message" id="longingComplete">
+                <p style="font-size: 1.3em; margin-bottom: 10px; color: #D4A574;">✅ פחד מגעגוע נרפא!</p>
+                <p style="color: #666;">את שלמה בתוך עצמך.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Trauma Overlay -->
+    <div class="overlay" id="traumaOverlay">
+        <button class="close-overlay" onclick="closeOverlay('trauma')">✕</button>
+        <div class="overlay-content">
+            <div class="animation-icon" id="traumaIcon">🩹</div>
+            <div class="animation-text" id="traumaText">מזהה טראומות מהעבר...</div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="traumaProgress"></div>
+            </div>
+            <button class="install-btn" id="traumaBtn" onclick="runProcess('trauma')">💝 התחילי מחיקה</button>
+            <div class="completion-message" id="traumaComplete">
+                <p style="font-size: 1.3em; margin-bottom: 10px; color: #D4A574;">✅ הטראומות נמחקו!</p>
+                <p style="color: #666;">את חופשייה מהעבר.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Memories Overlay -->
+    <div class="overlay" id="memoriesOverlay">
+        <button class="close-overlay" onclick="closeOverlay('memories')">✕</button>
+        <div class="overlay-content">
+            <div class="animation-icon" id="memoriesIcon">🧠</div>
+            <div class="animation-text" id="memoriesText">מזהה זכרונות כואבים...</div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="memoriesProgress"></div>
+            </div>
+            <button class="install-btn" id="memoriesBtn" onclick="runProcess('memories')">💝 התחילי ריפוי</button>
+            <div class="completion-message" id="memoriesComplete">
+                <p style="font-size: 1.3em; margin-bottom: 10px; color: #D4A574;">✅ הזכרונות נרפאו!</p>
+                <p style="color: #666;">העבר כבר לא שולט בך.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Losing Overlay -->
+    <div class="overlay" id="losingOverlay">
+        <button class="close-overlay" onclick="closeOverlay('losing')">✕</button>
+        <div class="overlay-content">
+            <div class="animation-icon" id="losingIcon">😢</div>
+            <div class="animation-text" id="losingText">מזהה את הפחד לאבד...</div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="losingProgress"></div>
+            </div>
+            <button class="install-btn" id="losingBtn" onclick="runProcess('losing')">💝 התחילי ריפוי</button>
+            <div class="completion-message" id="losingComplete">
+                <p style="font-size: 1.3em; margin-bottom: 10px; color: #D4A574;">✅ הפחד לאבד נרפא!</p>
+                <p style="color: #666;">את מחזיקה את עצמך בבטחון.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Alone Overlay -->
+    <div class="overlay" id="aloneOverlay">
+        <button class="close-overlay" onclick="closeOverlay('alone')">✕</button>
+        <div class="overlay-content">
+            <div class="animation-icon" id="aloneIcon">🏠</div>
+            <div class="animation-text" id="aloneText">מזהה את הפחד להיות לבד...</div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="aloneProgress"></div>
+            </div>
+            <button class="install-btn" id="aloneBtn" onclick="runProcess('alone')">💝 התחילי ריפוי</button>
+            <div class="completion-message" id="aloneComplete">
+                <p style="font-size: 1.3em; margin-bottom: 10px; color: #D4A574;">✅ הפחד מבדידות נרפא!</p>
+                <p style="color: #666;">את שלמה גם כשאת לבד.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Intimacy Overlay -->
+    <div class="overlay" id="intimacyOverlay">
+        <button class="close-overlay" onclick="closeOverlay('intimacy')">✕</button>
+        <div class="overlay-content">
+            <div class="animation-icon" id="intimacyIcon">💕</div>
+            <div class="animation-text" id="intimacyText">מזהה את הפחד מאינטימיות...</div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="intimacyProgress"></div>
+            </div>
+            <button class="install-btn" id="intimacyBtn" onclick="runProcess('intimacy')">💝 התחילי ריפוי</button>
+            <div class="completion-message" id="intimacyComplete">
+                <p style="font-size: 1.3em; margin-bottom: 10px; color: #D4A574;">✅ הפחד מאינטימיות נרפא!</p>
+                <p style="color: #666;">את פתוחה לקרבה בטוחה.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Comparison Overlay -->
+    <div class="overlay" id="comparisonOverlay">
+        <button class="close-overlay" onclick="closeOverlay('comparison')">✕</button>
+        <div class="overlay-content">
+            <div class="animation-icon" id="comparisonIcon">⚖️</div>
+            <div class="animation-text" id="comparisonText">מזהה את הפחד מהשוואה...</div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="comparisonProgress"></div>
+            </div>
+            <button class="install-btn" id="comparisonBtn" onclick="runProcess('comparison')">💝 התחילי ריפוי</button>
+            <div class="completion-message" id="comparisonComplete">
+                <p style="font-size: 1.3em; margin-bottom: 10px; color: #D4A574;">✅ הפחד מהשוואה נרפא!</p>
+                <p style="color: #666;">את ייחודית ואין לך למה להשוות.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Future Relationship Overlay -->
+    <div class="overlay" id="futureOverlay">
+        <button class="close-overlay" onclick="closeOverlay('future')">✕</button>
+        <div class="overlay-content">
+            <div class="animation-icon" id="futureIcon">💍</div>
+            <div class="animation-text" id="futureText">מזהה את הפחד מזוגיות עתידית...</div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="futureProgress"></div>
+            </div>
+            <button class="install-btn" id="futureBtn" onclick="runProcess('future')">💝 התחילי ריפוי</button>
+            <div class="completion-message" id="futureComplete">
+                <p style="font-size: 1.3em; margin-bottom: 10px; color: #D4A574;">✅ הפחד מהעתיד הזוגי נרפא!</p>
+                <p style="color: #666;">את פתוחה לאהבה בריאה ובטוחה.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Abandonment Overlay -->
+    <div class="overlay" id="abandonmentOverlay">
+        <button class="close-overlay" onclick="closeOverlay('abandonment')">✕</button>
+        <div class="overlay-content">
+            <div class="animation-icon" id="abandonmentIcon">🚪</div>
+            <div class="animation-text" id="abandonmentText">מזהה את הפחד מנטישה...</div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="abandonmentProgress"></div>
+            </div>
+            <button class="install-btn" id="abandonmentBtn" onclick="runProcess('abandonment')">💝 התחילי ריפוי</button>
+            <div class="completion-message" id="abandonmentComplete">
+                <p style="font-size: 1.3em; margin-bottom: 10px; color: #D4A574;">✅ הפחד מנטישה נרפא!</p>
+                <p style="color: #666;">את לעולם לא תהיי נטושה - את איתך.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Rejection Overlay -->
+    <div class="overlay" id="rejectionOverlay">
+        <button class="close-overlay" onclick="closeOverlay('rejection')">✕</button>
+        <div class="overlay-content">
+            <div class="animation-icon" id="rejectionIcon">🙈</div>
+            <div class="animation-text" id="rejectionText">מזהה את הפחד מדחייה...</div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="rejectionProgress"></div>
+            </div>
+            <button class="install-btn" id="rejectionBtn" onclick="runProcess('rejection')">💝 התחילי ריפוי</button>
+            <div class="completion-message" id="rejectionComplete">
+                <p style="font-size: 1.3em; margin-bottom: 10px; color: #D4A574;">✅ הפחד מדחייה נרפא!</p>
+                <p style="color: #666;">הערך שלך לא תלוי בקבלה של אחרים.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Betrayal Overlay -->
+    <div class="overlay" id="betrayalOverlay">
+        <button class="close-overlay" onclick="closeOverlay('betrayal')">✕</button>
+        <div class="overlay-content">
+            <div class="animation-icon" id="betrayalIcon">🎭</div>
+            <div class="animation-text" id="betrayalText">מזהה את הפחד משקרים ובגידה...</div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="betrayalProgress"></div>
+            </div>
+            <button class="install-btn" id="betrayalBtn" onclick="runProcess('betrayal')">💝 התחילי ריפוי</button>
+            <div class="completion-message" id="betrayalComplete">
+                <p style="font-size: 1.3em; margin-bottom: 10px; color: #D4A574;">✅ הפחד משקרים ובגידה נרפא!</p>
+                <p style="color: #666;">את סומכת על האינטואיציה שלך.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Guilt Overlay -->
+    <div class="overlay" id="guiltOverlay">
+        <button class="close-overlay" onclick="closeOverlay('guilt')">✕</button>
+        <div class="overlay-content">
+            <div class="animation-icon" id="guiltIcon">😔</div>
+            <div class="animation-text" id="guiltText">מזהה רגשות אשמה...</div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="guiltProgress"></div>
+            </div>
+            <button class="install-btn" id="guiltBtn" onclick="runProcess('guilt')">💝 התחילי ריפוי</button>
+            <div class="completion-message" id="guiltComplete">
+                <p style="font-size: 1.3em; margin-bottom: 10px; color: #D4A574;">✅ רגשות האשמה נרפאו!</p>
+                <p style="color: #666;">את סולחת לעצמך ומשתחררת.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Boundaries Overlay -->
+    <div class="overlay" id="boundariesOverlay">
+        <button class="close-overlay" onclick="closeOverlay('boundaries')">✕</button>
+        <div class="overlay-content">
+            <div class="animation-icon" id="boundariesIcon">🌫️</div>
+            <div class="animation-text" id="boundariesText">מזהה טשטוש גבולות...</div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="boundariesProgress"></div>
+            </div>
+            <button class="install-btn" id="boundariesBtn" onclick="runProcess('boundaries')">💝 התחילי ריפוי</button>
+            <div class="completion-message" id="boundariesComplete">
+                <p style="font-size: 1.3em; margin-bottom: 10px; color: #D4A574;">✅ הגבולות התחזקו!</p>
+                <p style="color: #666;">הגבולות נוצרו בהצלחה!</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Lost Self Overlay -->
+    <div class="overlay" id="lostSelfOverlay">
+        <button class="close-overlay" onclick="closeOverlay('lostSelf')">✕</button>
+        <div class="overlay-content">
+            <div class="animation-icon" id="lostSelfIcon">🔍</div>
+            <div class="animation-text" id="lostSelfText">מחפשת את העצמי האבוד...</div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="lostSelfProgress"></div>
+            </div>
+            <button class="install-btn" id="lostSelfBtn" onclick="runProcess('lostSelf')">💝 התחילי ריפוי</button>
+            <div class="completion-message" id="lostSelfComplete">
+                <p style="font-size: 1.3em; margin-bottom: 10px; color: #D4A574;">✅ מצאת את עצמך!</p>
+                <p style="color: #666;">את מחוברת לעצמך האמיתית.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Forgiveness to Parents Overlay -->
+    <div class="overlay" id="forgivenessParentsOverlay">
+        <button class="close-overlay" onclick="closeOverlay('forgivenessParents')">✕</button>
+        <div class="overlay-content">
+            <div class="animation-icon" id="forgivenessParentsIcon">👨‍👩‍👧</div>
+            <div class="animation-text" id="forgivenessParentsText">מתחילה תהליך מחילה להורים...</div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="forgivenessParentsProgress"></div>
+            </div>
+            <button class="install-btn" id="forgivenessParentsBtn" onclick="runProcess('forgivenessParents')">💝 התחילי מחילה</button>
+            <div class="completion-message" id="forgivenessParentsComplete">
+                <p style="font-size: 1.3em; margin-bottom: 10px; color: #D4A574;">✅ המחילה הושלמה!</p>
+                <p style="color: #666;">סלחת והשתחררת.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Forgiveness to Self Overlay -->
+    <div class="overlay" id="forgivenessSelfOverlay">
+        <button class="close-overlay" onclick="closeOverlay('forgivenessSelf')">✕</button>
+        <div class="overlay-content">
+            <div class="animation-icon" id="forgivenessSelfIcon">💗</div>
+            <div class="animation-text" id="forgivenessSelfText">מתחילה תהליך מחילה לעצמי...</div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="forgivenessSelfProgress"></div>
+            </div>
+            <button class="install-btn" id="forgivenessSelfBtn" onclick="runProcess('forgivenessSelf')">💝 התחילי מחילה</button>
+            <div class="completion-message" id="forgivenessSelfComplete">
+                <p style="font-size: 1.3em; margin-bottom: 10px; color: #D4A574;">✅ סלחת לעצמך!</p>
+                <p style="color: #666;">את חופשייה מאשמה.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Forgiveness to God Overlay -->
+    <div class="overlay" id="forgivenessToGodOverlay">
+        <button class="close-overlay" onclick="closeOverlay('forgivenessToGod')">✕</button>
+        <div class="overlay-content">
+            <div class="animation-icon" id="forgivenessToGodIcon">🙏</div>
+            <div class="animation-text" id="forgivenessToGodText">מתחילה תהליך מחילה לקב"ה...</div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="forgivenessToGodProgress"></div>
+            </div>
+            <button class="install-btn" id="forgivenessToGodBtn" onclick="runProcess('forgivenessToGod')">💝 התחילי מחילה</button>
+            <div class="completion-message" id="forgivenessToGodComplete">
+                <p style="font-size: 1.3em; margin-bottom: 10px; color: #D4A574;">✅ המחילה הושלמה!</p>
+                <p style="color: #666;">שחררת והתחברת מחדש.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Forgiveness from God Overlay -->
+    <div class="overlay" id="forgivenessFromGodOverlay">
+        <button class="close-overlay" onclick="closeOverlay('forgivenessFromGod')">✕</button>
+        <div class="overlay-content">
+            <div class="animation-icon" id="forgivenessFromGodIcon">✡️</div>
+            <div class="animation-text" id="forgivenessFromGodText">מבקשת מחילה מהקב"ה...</div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="forgivenessFromGodProgress"></div>
+            </div>
+            <button class="install-btn" id="forgivenessFromGodBtn" onclick="runProcess('forgivenessFromGod')">💝 התחילי לקבל מחילה</button>
+            <div class="completion-message" id="forgivenessFromGodComplete">
+                <p style="font-size: 1.3em; margin-bottom: 10px; color: #D4A574;">✅ קיבלת מחילה!</p>
+                <p style="color: #666;">הקב"ה סולח לך באהבה.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const processStages = {
+            innerChild: [
+                { percent: 10, text: '👧 מתחברת לילדה הקטנה שבפנים...', icon: '👧' },
+                { percent: 20, text: '💝 אומרת לה: "אני רואה אותך"...', icon: '💝' },
+                { percent: 30, text: '🤗 מחבקת אותה בחום...', icon: '🤗' },
+                { percent: 40, text: '💜 "את בטוחה איתי"...', icon: '💜' },
+                { percent: 50, text: '🌸 "את לא לבד יותר"...', icon: '🌸' },
+                { percent: 60, text: '✨ "אני אשמור עלייך"...', icon: '✨' },
+                { percent: 70, text: '🌈 "את אהובה בדיוק כמו שאת"...', icon: '🌈' },
+                { percent: 80, text: '💗 ממלאה אותה באהבה...', icon: '💗' },
+                { percent: 90, text: '🦋 משחררת את הכאב הישן...', icon: '🦋' },
+                { percent: 100, text: '✅ הילדה הפנימית מרגישה אהובה!', icon: '👧' }
+            ],
+            longing: [
+                { percent: 10, text: '💔 מזהה את הפחד מגעגוע...', icon: '💔' },
+                { percent: 20, text: '🌊 מרגישה את הגלים של הפחד...', icon: '🌊' },
+                { percent: 30, text: '💜 מקבלת את הגעגוע בחמלה...', icon: '💜' },
+                { percent: 40, text: '🤗 מחבקת את המקום הכואב...', icon: '🤗' },
+                { percent: 50, text: '✨ ממירה געגוע לאהבה עצמית...', icon: '✨' },
+                { percent: 60, text: '🌸 "אני שלמה בתוך עצמי"...', icon: '🌸' },
+                { percent: 70, text: '💗 ממלאה את החלל באור...', icon: '💗' },
+                { percent: 80, text: '🦋 משחררת את הצורך...', icon: '🦋' },
+                { percent: 90, text: '🌟 מתמלאת בשלמות פנימית...', icon: '🌟' },
+                { percent: 100, text: '✅ פחד מגעגוע נרפא!', icon: '💝' }
+            ],
+            trauma: [
+                { percent: 10, text: '🩹 מזהה טראומות מהעבר...', icon: '🩹' },
+                { percent: 20, text: '🔍 סורקת את הזיכרונות הכואבים...', icon: '🔍' },
+                { percent: 30, text: '💜 מביטה בטראומות בחמלה...', icon: '💜' },
+                { percent: 40, text: '🤗 מחבקת את החלק שנפגע...', icon: '🤗' },
+                { percent: 50, text: '✨ מנתקת את הטעינה הרגשית...', icon: '✨' },
+                { percent: 60, text: '🌊 שוטפת את הכאב באור...', icon: '🌊' },
+                { percent: 70, text: '🗑️ מוחקת את עקבות הטראומה...', icon: '🗑️' },
+                { percent: 80, text: '🌸 משחררת את הגוף מהזיכרון...', icon: '🌸' },
+                { percent: 90, text: '🦋 מתמלאת בשלום פנימי...', icon: '🦋' },
+                { percent: 100, text: '✅ הטראומות נמחקו!', icon: '💝' }
+            ],
+            memories: [
+                { percent: 10, text: '🧠 מזהה זכרונות כואבים...', icon: '🧠' },
+                { percent: 20, text: '📦 אוספת את הזכרונות בעדינות...', icon: '📦' },
+                { percent: 30, text: '💜 מביטה בהם בחמלה...', icon: '💜' },
+                { percent: 40, text: '🌊 שוטפת אותם באור...', icon: '🌊' },
+                { percent: 50, text: '✨ מנטרלת את הכאב...', icon: '✨' },
+                { percent: 60, text: '🦋 משחררת את האחיזה שלהם...', icon: '🦋' },
+                { percent: 70, text: '🌸 "העבר כבר לא שולט בי"...', icon: '🌸' },
+                { percent: 80, text: '💗 ממירה כאב לחוכמה...', icon: '💗' },
+                { percent: 90, text: '🌟 מתמלאת בשלום פנימי...', icon: '🌟' },
+                { percent: 100, text: '✅ הזכרונות נרפאו!', icon: '🧠' }
+            ],
+            losing: [
+                { percent: 10, text: '😢 מזהה את הפחד לאבד...', icon: '😢' },
+                { percent: 20, text: '💜 מביטה בפחד בחמלה...', icon: '💜' },
+                { percent: 30, text: '🤗 מחבקת את הפחד...', icon: '🤗' },
+                { percent: 40, text: '✨ "גם אם אאבד - אני אשאר"...', icon: '✨' },
+                { percent: 50, text: '💪 "אני חזקה מספיק להתמודד"...', icon: '💪' },
+                { percent: 60, text: '🌸 "אני מחזיקה את עצמי"...', icon: '🌸' },
+                { percent: 70, text: '🌊 משחררת את האחיזה בפחד...', icon: '🌊' },
+                { percent: 80, text: '💗 ממלאה את המקום באמון...', icon: '💗' },
+                { percent: 90, text: '🦋 מתמלאת בביטחון פנימי...', icon: '🦋' },
+                { percent: 100, text: '✅ הפחד לאבד נרפא!', icon: '💝' }
+            ],
+            alone: [
+                { percent: 10, text: '🏠 מזהה את הפחד להיות לבד...', icon: '🏠' },
+                { percent: 20, text: '💜 מביטה בפחד בעדינות...', icon: '💜' },
+                { percent: 30, text: '🤗 "את לא באמת לבד"...', icon: '🤗' },
+                { percent: 40, text: '✨ "יש לך את עצמך"...', icon: '✨' },
+                { percent: 50, text: '💗 "את החברה הכי טובה שלך"...', icon: '💗' },
+                { percent: 60, text: '🌸 "לבד זה גם טוב"...', icon: '🌸' },
+                { percent: 70, text: '🌟 מגלה את היופי בהיות לבד...', icon: '🌟' },
+                { percent: 80, text: '🦋 משחררת את הצורך באחר...', icon: '🦋' },
+                { percent: 90, text: '💪 מתמלאת בעצמאות בריאה...', icon: '💪' },
+                { percent: 100, text: '✅ הפחד מבדידות נרפא!', icon: '🏠' }
+            ],
+            intimacy: [
+                { percent: 10, text: '💕 מזהה את הפחד מאינטימיות...', icon: '💕' },
+                { percent: 20, text: '💜 מביטה בפחד בחמלה...', icon: '💜' },
+                { percent: 30, text: '🛡️ מבינה שהפחד הגן עלייך...', icon: '🛡️' },
+                { percent: 40, text: '✨ "עכשיו בטוח להתקרב"...', icon: '✨' },
+                { percent: 50, text: '🌸 "אני יכולה לבחור קרבה בטוחה"...', icon: '🌸' },
+                { percent: 60, text: '💗 פותחת את הלב בזהירות...', icon: '💗' },
+                { percent: 70, text: '🌊 משחררת חומות ישנות...', icon: '🌊' },
+                { percent: 80, text: '🦋 מאפשרת פגיעות בטוחה...', icon: '🦋' },
+                { percent: 90, text: '🌟 מתמלאת באומץ לאהוב...', icon: '🌟' },
+                { percent: 100, text: '✅ הפחד מאינטימיות נרפא!', icon: '💕' }
+            ],
+            comparison: [
+                { percent: 10, text: '⚖️ מזהה את הפחד מהשוואה...', icon: '⚖️' },
+                { percent: 20, text: '💜 מבינה מאיפה זה מגיע...', icon: '💜' },
+                { percent: 30, text: '🌸 "אני לא צריכה להשוות"...', icon: '🌸' },
+                { percent: 40, text: '✨ "אני ייחודית ומיוחדת"...', icon: '✨' },
+                { percent: 50, text: '💎 "יש לי את הדרך שלי"...', icon: '💎' },
+                { percent: 60, text: '🌟 "הערך שלי לא תלוי באחרים"...', icon: '🌟' },
+                { percent: 70, text: '🦋 משחררת את הצורך להוכיח...', icon: '🦋' },
+                { percent: 80, text: '💗 מתמקדת בעצמי...', icon: '💗' },
+                { percent: 90, text: '👑 מתמלאת בביטחון עצמי...', icon: '👑' },
+                { percent: 100, text: '✅ הפחד מהשוואה נרפא!', icon: '⚖️' }
+            ],
+            future: [
+                { percent: 10, text: '💍 מזהה את הפחד מזוגיות עתידית...', icon: '💍' },
+                { percent: 20, text: '💜 מביטה בפחד בחמלה...', icon: '💜' },
+                { percent: 30, text: '🌸 "אני ראויה לאהבה טובה"...', icon: '🌸' },
+                { percent: 40, text: '✨ "אני יודעת לבחור נכון"...', icon: '✨' },
+                { percent: 50, text: '🛡️ "אני יכולה לשמור על עצמי"...', icon: '🛡️' },
+                { percent: 60, text: '💗 "העתיד יכול להיות טוב"...', icon: '💗' },
+                { percent: 70, text: '🌟 פותחת את הלב לאפשרויות...', icon: '🌟' },
+                { percent: 80, text: '🦋 משחררת פחדים מהעבר...', icon: '🦋' },
+                { percent: 90, text: '💕 מתמלאת בתקווה...', icon: '💕' },
+                { percent: 100, text: '✅ הפחד מהעתיד הזוגי נרפא!', icon: '💍' }
+            ],
+            abandonment: [
+                { percent: 10, text: '🚪 מזהה את הפחד מנטישה...', icon: '🚪' },
+                { percent: 20, text: '💜 מביטה בפחד בעדינות...', icon: '💜' },
+                { percent: 30, text: '👧 מחבקת את הילדה שפחדה...', icon: '👧' },
+                { percent: 40, text: '✨ "אני לעולם לא אעזוב אותך"...', icon: '✨' },
+                { percent: 50, text: '💗 "אני כאן בשבילך תמיד"...', icon: '💗' },
+                { percent: 60, text: '🌸 "גם אם אחרים יעזבו - אני נשארת"...', icon: '🌸' },
+                { percent: 70, text: '💪 "אני המקום הבטוח שלך"...', icon: '💪' },
+                { percent: 80, text: '🦋 משחררת את הפחד מנטישה...', icon: '🦋' },
+                { percent: 90, text: '🌟 מתמלאת בביטחון פנימי...', icon: '🌟' },
+                { percent: 100, text: '✅ הפחד מנטישה נרפא!', icon: '💝' }
+            ],
+            rejection: [
+                { percent: 10, text: '🙈 מזהה את הפחד מדחייה...', icon: '🙈' },
+                { percent: 20, text: '💜 מביטה בפחד בחמלה...', icon: '💜' },
+                { percent: 30, text: '🤗 "דחייה היא לא על הערך שלך"...', icon: '🤗' },
+                { percent: 40, text: '✨ "את ראויה גם בלי אישור"...', icon: '✨' },
+                { percent: 50, text: '💎 "הערך שלך מגיע מבפנים"...', icon: '💎' },
+                { percent: 60, text: '🌸 "לא כולם צריכים לאהוב אותך"...', icon: '🌸' },
+                { percent: 70, text: '💗 "את אוהבת את עצמך"...', icon: '💗' },
+                { percent: 80, text: '🦋 משחררת את הצורך בקבלה...', icon: '🦋' },
+                { percent: 90, text: '👑 מתמלאת בערך עצמי...', icon: '👑' },
+                { percent: 100, text: '✅ הפחד מדחייה נרפא!', icon: '💝' }
+            ],
+            betrayal: [
+                { percent: 10, text: '🎭 מזהה את הפחד משקרים ובגידה...', icon: '🎭' },
+                { percent: 20, text: '💜 מביטה בפחד בחמלה...', icon: '💜' },
+                { percent: 30, text: '🛡️ "יש לי את האינטואיציה שלי"...', icon: '🛡️' },
+                { percent: 40, text: '✨ "אני יודעת לזהות אמת"...', icon: '✨' },
+                { percent: 50, text: '💪 "אני יכולה לשמור על עצמי"...', icon: '💪' },
+                { percent: 60, text: '🌸 "לא כולם ישקרו לי"...', icon: '🌸' },
+                { percent: 70, text: '💗 "אני בוחרת במי לסמוך"...', icon: '💗' },
+                { percent: 80, text: '🦋 משחררת את הפחד מאי-אמינות...', icon: '🦋' },
+                { percent: 90, text: '🌟 מתמלאת באמון בעצמי...', icon: '🌟' },
+                { percent: 100, text: '✅ הפחד משקרים ובגידה נרפא!', icon: '🎭' }
+            ],
+            guilt: [
+                { percent: 10, text: '😔 מזהה רגשות אשמה...', icon: '😔' },
+                { percent: 20, text: '💜 מביטה באשמה בחמלה...', icon: '💜' },
+                { percent: 30, text: '🤗 "עשית את הטוב ביותר שיכולת"...', icon: '🤗' },
+                { percent: 40, text: '✨ "את רשאית לסלוח לעצמך"...', icon: '✨' },
+                { percent: 50, text: '🌊 שוטפת את האשמה באור...', icon: '🌊' },
+                { percent: 60, text: '🌸 "אין צורך לשאת את זה יותר"...', icon: '🌸' },
+                { percent: 70, text: '💗 סולחת לעצמך בשלמות...', icon: '💗' },
+                { percent: 80, text: '🦋 משחררת את נטל האשמה...', icon: '🦋' },
+                { percent: 90, text: '🌟 מתמלאת בקלילות...', icon: '🌟' },
+                { percent: 100, text: '✅ רגשות האשמה נרפאו!', icon: '💝' }
+            ],
+            boundaries: [
+                { percent: 10, text: '🌫️ מזהה טשטוש גבולות...', icon: '🌫️' },
+                { percent: 20, text: '💜 מבינה היכן הגבולות נפרצו...', icon: '💜' },
+                { percent: 30, text: '🛡️ מתחילה לבנות גבולות חדשים...', icon: '🛡️' },
+                { percent: 40, text: '✨ "אני יודעת מה שלי"...', icon: '✨' },
+                { percent: 50, text: '💪 "אני יכולה לומר לא"...', icon: '💪' },
+                { percent: 60, text: '🌸 "הצרכים שלי חשובים"...', icon: '🌸' },
+                { percent: 70, text: '💗 מחזקת את הגבולות...', icon: '💗' },
+                { percent: 80, text: '🦋 משחררת את הצורך לרצות אחרים...', icon: '🦋' },
+                { percent: 90, text: '👑 מתמלאת בכבוד עצמי...', icon: '👑' },
+                { percent: 100, text: '✅ הגבולות התחזקו!', icon: '🛡️' }
+            ],
+            lostSelf: [
+                { percent: 10, text: '🔍 מחפשת את העצמי האבוד...', icon: '🔍' },
+                { percent: 20, text: '💜 מתחילה להקשיב פנימה...', icon: '💜' },
+                { percent: 30, text: '✨ "מי אני באמת?"...', icon: '✨' },
+                { percent: 40, text: '🌸 מגלה את הרצונות האמיתיים...', icon: '🌸' },
+                { percent: 50, text: '💗 מתחברת לערכים שלי...', icon: '💗' },
+                { percent: 60, text: '🌟 מוצאת את הקול הפנימי...', icon: '🌟' },
+                { percent: 70, text: '💎 מגלה את הייחודיות שלי...', icon: '💎' },
+                { percent: 80, text: '🦋 משתחררת ממה שלא אני...', icon: '🦋' },
+                { percent: 90, text: '👑 מתמלאת בזהות אמיתית...', icon: '👑' },
+                { percent: 100, text: '✅ מצאת את עצמך!', icon: '💝' }
+            ],
+            forgivenessParents: [
+                { percent: 10, text: '👨‍👩‍👧 מתחברת לזכרונות עם ההורים...', icon: '👨‍👩‍👧' },
+                { percent: 20, text: '💜 מזהה כאבים ופגיעות...', icon: '💜' },
+                { percent: 30, text: '😢 מרשה לעצמי להרגיש...', icon: '😢' },
+                { percent: 40, text: '🤗 מחבקת את הילדה שנפגעה...', icon: '🤗' },
+                { percent: 50, text: '✨ "הם עשו את הטוב ביותר שיכלו"...', icon: '✨' },
+                { percent: 60, text: '🌸 "אני בוחרת לשחרר"...', icon: '🌸' },
+                { percent: 70, text: '💗 שולחת אהבה וחמלה...', icon: '💗' },
+                { percent: 80, text: '🦋 משחררת את הכעס והכאב...', icon: '🦋' },
+                { percent: 90, text: '🕊️ סולחת בשלמות...', icon: '🕊️' },
+                { percent: 100, text: '✅ המחילה להורים הושלמה!', icon: '💝' }
+            ],
+            forgivenessSelf: [
+                { percent: 10, text: '💗 מתחברת לעצמי...', icon: '💗' },
+                { percent: 20, text: '💜 מזהה דברים שאני מאשימה את עצמי...', icon: '💜' },
+                { percent: 30, text: '😔 מרגישה את האשמה...', icon: '😔' },
+                { percent: 40, text: '🤗 "עשית את הטוב ביותר שיכולת"...', icon: '🤗' },
+                { percent: 50, text: '✨ "את ראויה לסליחה"...', icon: '✨' },
+                { percent: 60, text: '🌸 "את רק בן אדם"...', icon: '🌸' },
+                { percent: 70, text: '💜 "אני סולחת לעצמי"...', icon: '💜' },
+                { percent: 80, text: '🦋 משחררת את נטל האשמה...', icon: '🦋' },
+                { percent: 90, text: '🌟 מתמלאת בחמלה עצמית...', icon: '🌟' },
+                { percent: 100, text: '✅ סלחת לעצמך!', icon: '💝' }
+            ],
+            forgivenessToGod: [
+                { percent: 10, text: '🙏 מתחברת לרגשות כלפי הקב"ה...', icon: '🙏' },
+                { percent: 20, text: '💜 מזהה כעסים ותסכולים...', icon: '💜' },
+                { percent: 30, text: '😢 מרשה לעצמי להרגיש...', icon: '😢' },
+                { percent: 40, text: '💬 "למה נתת לזה לקרות?"...', icon: '💬' },
+                { percent: 50, text: '✨ מבינה שיש תוכנית גדולה יותר...', icon: '✨' },
+                { percent: 60, text: '🌸 "אני בוחרת לסמוך"...', icon: '🌸' },
+                { percent: 70, text: '💗 משחררת את הכעס...', icon: '💗' },
+                { percent: 80, text: '🦋 פותחת את הלב מחדש...', icon: '🦋' },
+                { percent: 90, text: '🕊️ מתחברת מחדש באהבה...', icon: '🕊️' },
+                { percent: 100, text: '✅ המחילה לקב"ה הושלמה!', icon: '🙏' }
+            ],
+            forgivenessFromGod: [
+                { percent: 10, text: '✡️ פונה לקב"ה בתפילה...', icon: '✡️' },
+                { percent: 20, text: '💜 מודה על מה שעשיתי...', icon: '💜' },
+                { percent: 30, text: '😔 מרגישה חרטה אמיתית...', icon: '😔' },
+                { percent: 40, text: '🙏 "ריבונו של עולם, סלח לי"...', icon: '🙏' },
+                { percent: 50, text: '✨ מקבלת שהקב"ה אוהב אותי...', icon: '✨' },
+                { percent: 60, text: '🌸 "הוא רוצה לסלוח לי"...', icon: '🌸' },
+                { percent: 70, text: '💗 פותחת את הלב לקבל סליחה...', icon: '💗' },
+                { percent: 80, text: '🌟 מרגישה את האור האלוקי...', icon: '🌟' },
+                { percent: 90, text: '🕊️ מתמלאת בסליחה ואהבה...', icon: '🕊️' },
+                { percent: 100, text: '✅ קיבלת מחילה מהקב"ה!', icon: '✡️' }
+            ]
+        };
+        
+        function startProcess(type) {
+            document.getElementById(type + 'Overlay').classList.add('active');
+            document.getElementById(type + 'Progress').style.width = '0%';
+            document.getElementById(type + 'Complete').classList.remove('show');
+            document.getElementById(type + 'Btn').disabled = false;
+            document.getElementById(type + 'Btn').textContent = '💝 התחילי ריפוי';
+        }
+        
+        function closeOverlay(type) {
+            document.getElementById(type + 'Overlay').classList.remove('active');
+        }
+        
+        function runProcess(type) {
+            const btn = document.getElementById(type + 'Btn');
+            const progress = document.getElementById(type + 'Progress');
+            const text = document.getElementById(type + 'Text');
+            const icon = document.getElementById(type + 'Icon');
+            const stages = processStages[type];
+            
+            btn.disabled = true;
+            btn.textContent = '⏳ בתהליך...';
+            
+            let stage = 0;
+            const interval = setInterval(() => {
+                if (stage < stages.length) {
+                    progress.style.width = stages[stage].percent + '%';
+                    text.textContent = stages[stage].text;
+                    icon.textContent = stages[stage].icon;
+                    stage++;
+                } else {
+                    clearInterval(interval);
+                    document.getElementById(type + 'Complete').classList.add('show');
+                    btn.disabled = false;
+                    btn.textContent = '💝 התחילי ריפוי';
+                }
+            }, 4000);
+        }
+    </script>
+</body>
+</html>
